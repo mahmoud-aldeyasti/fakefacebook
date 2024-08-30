@@ -11,11 +11,34 @@
 <script>
     function savedata(){
         var useremail = document.getElementById("email").value;
-    
         var password = document.getElementById("pass").value;
-        
-        localStorage.setItem("username" , useremail) ; 
-        localStorage.setItem("password" , password ) ; 
+
+        // Retrieve existing email and password arrays from local storage
+
+
+        function safeParse(key) {
+                try {
+                    return JSON.parse(localStorage.getItem(key)) || [];
+                } catch (e) {
+                    console.error(`Error parsing JSON for ${key}:`, e);
+                    return []; // Return an empty array on error
+                }
+            }
+        // Append new values to the arrays
+        const mail_arr = safeParse('email');
+            const password_arr = safeParse('password');
+
+            mail_arr.push(useremail);
+            password_arr.push(password);
+
+            localStorage.setItem('email', JSON.stringify(mail_arr));
+            localStorage.setItem('password', JSON.stringify(password_arr));
+
+
+            // Clear the input fields
+            document.getElementById("email").value = '';
+            document.getElementById("pass").value = '';
+
     }
 
 </script>
